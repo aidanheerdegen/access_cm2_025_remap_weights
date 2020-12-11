@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# By default all conservative remapping uses --norm_type 'dstarea'
+
+NCPUS=8
+
+# um1t -> cice/mom025
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m conserve2nd -s um1t_scrip.nc -d MOM025_scrip.nc -w rmp_um1t_mom025_conserve2nd.nc
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m patch       -s um1t_scrip.nc -d MOM025_scrip.nc -w rmp_um1t_mom025_patch.nc
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m bilinear    -s um1t_scrip.nc -d MOM025_scrip.nc -w rmp_um1t_mom025_bilinear.nc
+
+# cice/mom025 -> um1t
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m conserve2nd -s MOM025_scrip.nc -d um1t_scrip.nc -w rmp_mom025_um1t_conserve2nd.nc
+
+
+# um1u -> cice/mom025
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m patch       -s um1u_scrip.nc -d MOM025_scrip.nc -w rmp_um1u_mom025_patch.nc
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m bilinear    -s um1u_scrip.nc -d MOM025_scrip.nc -w rmp_um1u_mom025_bilinear.nc
+
+# cice/mom025 -> um1u
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m conserve2nd -s MOM025_scrip.nc -d um1u_scrip.nc -w rmp_mom025_um1u_conserve2nd.nc
+
+
+# um1v -> cice/mom025
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m patch       -s um1v_scrip.nc -d MOM025_scrip.nc -w rmp_um1v_mom025_patch.nc
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m bilinear    -s um1v_scrip.nc -d MOM025_scrip.nc -w rmp_um1v_mom025_bilinear.nc
+
+# cice/mom025 -> um1u
+mpirun -np $NCPUS ./ESMF_RegridWeightGen -i -m conserve2nd -s MOM025_scrip.nc -d um1v_scrip.nc -w rmp_mom025_um1v_conserve2nd.nc
